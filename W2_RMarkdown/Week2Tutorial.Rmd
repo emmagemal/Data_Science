@@ -1,0 +1,74 @@
+---
+title: "Edinburgh Biodiversity"
+author: Emma Gemal
+date: 24/09/2019
+output: html_document 
+---
+
+```{r,include=FALSE} 
+library(rmarkdown)   #loading the packages necessary for this exercise
+```
+```{r,include=FALSE}
+library(dplyr)
+```
+
+```{r, include=FALSE}
+setwd("//Users/emmagemal/Documents/Uni Work/Year 3/Data Science/CC-2-RMarkdown-master")   #working directory set
+edidiv<-read.csv("edidiv.csv")
+```
+
+
+
+*The data used in this report is a publicly available dataset of occurrence records for many animal, plant, and fungi species, for 2000-2016 from the NBN Gateway.*
+
+### Species richness in Edinburgh, Scotland is displayed below. 
+The `richness` was calculated by:
+
+```{r}
+richness <- 
+  edidiv %>%
+    group_by(taxonGroup) %>%
+    summarise(Species_richness = n_distinct(taxonName))
+```
+The results for `richness` are displayed in Table 1.
+
+#### Table 1.
+```{r,echo=FALSE}
+library(pander)    #above is the construction of a table of species richness for each taxanomic group
+pander(richness)   #table displayed nicely via pander 
+```
+
+This is graphically displayed below:
+
+```{r,echo=FALSE}
+barplot(richness$Species_richness, 
+        names.arg = richness$taxonGroup, 
+        xlab = "Taxa", ylab = "Number of species", 
+        ylim = c(0,600)
+        )                       #creating a barchart of taxa and species abundance  
+```
+
+The most common species (`max_abund`) for each taxanomic group was also found, displayed in Table 2. The code used for this is shown here:
+```{r}
+max_abund <-
+  edidiv %>%
+    group_by(taxonGroup) %>%
+    summarise(taxonName = names(which.max(table(taxonName))))
+```
+#### Table 2.
+```{r,echo=FALSE}
+emphasize.italics.cols(2)    #making the 2nd column italics 
+pander(max_abund)
+```
+
+The two parameters, `richness` and `max_abund`, were joined together to produce Table 3:
+```{r}
+richness_abund <- inner_join(richness, max_abund, by = "taxonGroup")
+```
+#### Table 3. 
+```{r,echo=FALSE}
+richness_abund <- rename(richness_abund, Most_abundant =  taxonName, Taxon = taxonGroup)
+emphasize.italics.cols(3)
+pander(richness_abund)
+```
+
