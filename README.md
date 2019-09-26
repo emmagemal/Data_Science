@@ -1,7 +1,10 @@
-# Data_Science
-## All tutorials and projects for Data Science for EES 
+# Week 2
+## All tutorials, information, tests, and files for Week 2 
 
-### Emma Gemal
+### Emma Gemal (s1758915@ed.ac.uk)
 Data Science website: [https://datascienceees.github.io/]
 
-This is more text for the sake of version control 
+This repository contains the following folders:
+- git_test: [https://github.com/emmagemal/week-2/master/git_test]
+- rmarkdown: [https://github.com/emmagemal/week-2/master/W2_RMarkdown]
+- manuscripts: [https://github.com/emmagemal/week-2/master/manuscripts]
